@@ -29,8 +29,9 @@ function Login() {
         autoClose: 2000,
       });
 
+      // Force full reload so protected routes re-check token
       setTimeout(() => {
-        navigate("/");
+        window.location.href = "/";
       }, 1500);
     } catch (err) {
       toast.update(toastId, {
