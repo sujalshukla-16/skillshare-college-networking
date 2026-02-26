@@ -18,6 +18,8 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use(express.json());
+app.use(express.urlencoded({extended: true }));
 
 app.get("/", (req, res) => {
   res.send("SkillShare API Running");
