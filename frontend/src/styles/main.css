@@ -183,10 +183,31 @@ body {
   color: #E2E8F0;
 }
 
+/* ================= POST IMAGE RESPONSIVE ================= */
+
 .post-image {
   width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
+  max-height: 450px;       /* prevents giant images */
+  object-fit: contain;     /* keeps full image visible */
+  margin-top: 12px;
+  border-radius: 12px;
+  display: block;
+}
+
+/* On larger screens, limit width */
+@media (min-width: 768px) {
+  .post-image {
+    max-width: 600px;
+    margin: 12px auto;     /* center image */
+  }
+}
+
+/* On very large screens */
+@media (min-width: 1200px) {
+  .post-image {
+    max-width: 700px;
+  }
+}
 
 /* ================= POST ACTIONS ================= */
 
