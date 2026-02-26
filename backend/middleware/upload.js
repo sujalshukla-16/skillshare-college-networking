@@ -4,9 +4,12 @@ import cloudinary from "../config/cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "skillshare_posts",
-    resource_type: "auto",
+  params: async (req, file) => {
+    return {
+      folder: "skillshare_posts",
+      resource_type: "auto",
+      public_id: Date.now() + "-" + file.originalname,
+    };
   },
 });
 
