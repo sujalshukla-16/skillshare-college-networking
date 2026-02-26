@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
-import Internships from "./pages/Internships";
+import Internships from "./pages/internships";
 import DM from "./pages/DM";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
