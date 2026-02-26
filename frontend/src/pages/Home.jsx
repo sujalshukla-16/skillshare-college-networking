@@ -73,7 +73,6 @@ function Home() {
           onChange={(e) => setNewPost(e.target.value)}
         />
 
-        {/* File Upload */}
         <input
           type="file"
           accept="image/*,.pdf"
@@ -96,21 +95,35 @@ function Home() {
           {/* Text */}
           {post.text && <p className="post-text">{post.text}</p>}
 
-          {/* Image Display */}
-          {post.fileType === "image" && (
-            <img src={post.fileUrl} alt="post" className="post-image" />
-          )}
-
-          {/* PDF Display */}
-          {post.fileType === "pdf" && (
-            <a
-              href={post.fileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pdf-link"
-            >
-              📄 View PDF
-            </a>
+          {/* File Rendering */}
+          {post.fileUrl && (
+            <div className="post-file">
+              {post.fileType?.startsWith("image") ? (
+                <img
+                  src={post.fileUrl}
+                  alt="post"
+                  className="post-image"
+                />
+              ) : post.fileType === "application/pdf" ? (
+                <a
+                  href={post.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pdf-link"
+                >
+                  📄 View PDF
+                </a>
+              ) : (
+                <a
+                  href={post.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pdf-link"
+                >
+                  📎 View File
+                </a>
+              )}
+            </div>
           )}
 
           <div className="post-actions">
@@ -134,7 +147,9 @@ function Home() {
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
               />
-              <button onClick={() => addComment(post._id)}>Send</button>
+              <button onClick={() => addComment(post._id)}>
+                Send
+              </button>
             </div>
           </div>
         </div>
