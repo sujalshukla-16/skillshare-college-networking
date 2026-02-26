@@ -4,17 +4,9 @@ import cloudinary from "../config/cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => {
-    let resourceType = "image";
-
-    if (file.mimetype === "application/pdf") {
-      resourceType = "raw";
-    }
-
-    return {
-      folder: "skillshare_posts",
-      resource_type: resourceType,
-    };
+  params: {
+    folder: "skillshare_posts",
+    resource_type: "auto",
   },
 });
 
