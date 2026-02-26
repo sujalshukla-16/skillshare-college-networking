@@ -5,19 +5,12 @@ export const createPost = async (req, res) => {
   try {
     const { text } = req.body;
 
-    // Allow post if text OR file exists
-    if (!text && !req.file) {
-      return res
-        .status(400)
-        .json({ message: "Post must contain text or a file" });
-    }
-
-    const postData = {
+    let postData = {
       user: req.user._id,
       text,
     };
 
-    // If file uploaded via Cloudinary
+    // If file uploaded
     if (req.file) {
       postData.fileUrl = req.file.secure_url;
 
@@ -25,14 +18,16 @@ export const createPost = async (req, res) => {
         postData.fileType = "image";
       } else if (req.file.mimetype === "application/pdf") {
         postData.fileType = "pdf";
+      } else {
+        postData.fileType = "other";
       }
     }
 
     const post = await Post.create(postData);
 
     res.status(201).json(post);
+
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
