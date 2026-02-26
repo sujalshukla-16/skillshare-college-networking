@@ -5,22 +5,15 @@ export const createPost = async (req, res) => {
   try {
     const { text } = req.body;
 
-    let postData = {
+    const postData = {
       user: req.user._id,
-      text,
+      text: text || "",
     };
 
-    // If file uploaded
+    // 🔥 FIXED: Correct Cloudinary file URL
     if (req.file) {
-      postData.fileUrl = req.file.secure_url;
-
-      if (req.file.mimetype.startsWith("image")) {
-        postData.fileType = "image";
-      } else if (req.file.mimetype === "application/pdf") {
-        postData.fileType = "pdf";
-      } else {
-        postData.fileType = "other";
-      }
+      postData.fileUrl = req.file.path; // <-- THIS IS THE FIX
+      postData.fileType = req.file.mimetype; // store full mimetype
     }
 
     const post = await Post.create(postData);
@@ -28,6 +21,7 @@ export const createPost = async (req, res) => {
     res.status(201).json(post);
 
   } catch (error) {
+    console.error("Create Post Error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -42,6 +36,7 @@ export const getPosts = async (req, res) => {
 
     res.json(posts);
   } catch (error) {
+    console.error("Get Posts Error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -59,7 +54,7 @@ export const toggleLike = async (req, res) => {
 
     if (liked) {
       post.likes = post.likes.filter(
-        (id) => id.toString() !== req.user._id.toString(),
+        (id) => id.toString() !== req.user._id.toString()
       );
     } else {
       post.likes.push(req.user._id);
@@ -69,6 +64,7 @@ export const toggleLike = async (req, res) => {
 
     res.json({ likes: post.likes.length });
   } catch (error) {
+    console.error("Like Error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -97,6 +93,7 @@ export const addComment = async (req, res) => {
 
     res.json(post.comments);
   } catch (error) {
+    console.error("Comment Error:", error);
     res.status(500).json({ message: error.message });
   }
 };
