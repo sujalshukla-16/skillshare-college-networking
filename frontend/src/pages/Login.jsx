@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const toastId = toast.loading("Logging in...");
+
     try {
       const res = await API.post("/auth/login", {
         email,
@@ -18,9 +21,24 @@ function Login() {
       });
 
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/";
+
+      toast.update(toastId, {
+        render: "Login successful 🎉",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (err) {
-      alert("Invalid credentials");
+      toast.update(toastId, {
+        render: err.response?.data?.message || "Invalid email or password",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -36,6 +54,7 @@ function Login() {
             placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <input
@@ -43,6 +62,7 @@ function Login() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <button type="submit">Login</button>
