@@ -421,3 +421,63 @@ body {
 .pdf-link:hover {
   background: #2563EB;
 }
+/* ================= ABOUT PAGE ================= */
+
+.about-container {
+  max-width: 950px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.about-hero h1 {
+  font-size: 38px;
+  color: #3B82F6;
+  margin-bottom: 12px;
+}
+
+.about-hero p {
+  font-size: 18px;
+  color: #CBD5E1;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.about-section {
+  background: #1E293B;
+  padding: 28px;
+  border-radius: 14px;
+  margin-bottom: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  transition: 0.3s ease;
+}
+
+.about-section:hover {
+  transform: translateY(-5px);
+}
+
+.about-section h2 {
+  color: #3B82F6;
+  margin-bottom: 15px;
+}
+
+.about-section p,
+.about-section li {
+  color: #E2E8F0;
+  line-height: 1.7;
+}
+
+.about-section ul {
+  padding-left: 20px;
+}
+
+.about-footer {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 14px;
+  color: #94A3B8;
+}
