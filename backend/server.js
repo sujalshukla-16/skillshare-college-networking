@@ -7,6 +7,10 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
+/* NEW ROUTES */
+import courseRoutes from "./routes/courseRoutes.js";
+import internshipRoutes from "./routes/internshipRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -14,7 +18,7 @@ const app = express();
 // ✅ Connect DB first
 connectDB();
 
-// ✅ Middleware (ONLY ONCE)
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+
+/* NEW ROUTES */
+app.use("/api/courses", courseRoutes);
+app.use("/api/internships", internshipRoutes);
 
 // ✅ Test Route
 app.get("/", (req, res) => {
