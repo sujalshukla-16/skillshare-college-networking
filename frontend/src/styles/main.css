@@ -500,6 +500,16 @@ body {
 .about-section ul {
   padding-left: 20px;
 }
+.create-post-card input,
+.create-post-card textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #0F172A;
+  color: white;
+}
 
 .about-footer {
   text-align: center;
