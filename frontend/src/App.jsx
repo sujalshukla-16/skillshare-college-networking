@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
-import Internships from "./pages/internships";
+import Internships from "./pages/Internships";
 import DM from "./pages/DM";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
@@ -21,7 +21,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="profile" element={<Profile />} />
           <Route path="courses" element={<Courses />} />
-          <Route path="internships" element={<Internships />} />
+          <Route path="Internships" element={<Internships />} />
           <Route path="dm" element={<DM />} />
           <Route path="about" element={<About />} />
         </Route>
