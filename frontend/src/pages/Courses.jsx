@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-
+console.log("User Role:",userRole);
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [userRole, setUserRole] = useState("");
@@ -33,7 +33,7 @@ function Courses() {
       const res = await API.get("/users/profile");
       setUserRole(res.data.role);
     } catch (err) {
-      console.error(err);
+      console.error("PROFILE ERROR:",err);
     }
   };
 
