@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-console.log("User Role:",userRole);
+
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [userRole, setUserRole] = useState("");
+
   const [formData, setFormData] = useState({
     courseName: "",
     domain: "",
@@ -19,6 +20,11 @@ function Courses() {
     getUserRole();
   }, []);
 
+  // Debug role (SAFE)
+  useEffect(() => {
+    console.log("User Role:", userRole);
+  }, [userRole]);
+
   const fetchCourses = async () => {
     try {
       const res = await API.get("/courses");
@@ -31,9 +37,10 @@ function Courses() {
   const getUserRole = async () => {
     try {
       const res = await API.get("/users/profile");
+      console.log("PROFILE RESPONSE:", res.data);
       setUserRole(res.data.role);
     } catch (err) {
-      console.error("PROFILE ERROR:",err);
+      console.error("PROFILE ERROR:", err);
     }
   };
 
@@ -66,8 +73,14 @@ function Courses() {
 
   return (
     <div className="feed">
+
+      {/* DEBUG TEXT (temporary) */}
+      <h4>Current Role: {userRole}</h4>
+
       {/* ADD COURSE FORM */}
-      {(userRole === "faculty" || userRole === "alumni") && (
+      {(userRole?.toLowerCase() === "faculty" ||
+        userRole?.toLowerCase() === "alumni") && (
+
         <div className="create-post-card">
           <h3>Add Course</h3>
 
@@ -132,6 +145,7 @@ function Courses() {
       {/* COURSE LIST */}
       {courses.map((course) => (
         <div key={course._id} className="post-card">
+
           <h3>{course.courseName}</h3>
 
           <p><b>Domain:</b> {course.domain}</p>
@@ -139,7 +153,10 @@ function Courses() {
           <p><b>Eligible:</b> {course.eligibleStudents}</p>
 
           {course.lastDate && (
-            <p><b>Last Date:</b> {new Date(course.lastDate).toLocaleDateString()}</p>
+            <p>
+              <b>Last Date:</b>{" "}
+              {new Date(course.lastDate).toLocaleDateString()}
+            </p>
           )}
 
           {course.description && (
@@ -154,6 +171,7 @@ function Courses() {
           >
             Apply
           </a>
+
         </div>
       ))}
     </div>
