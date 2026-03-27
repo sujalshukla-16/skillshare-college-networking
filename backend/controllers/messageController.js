@@ -114,3 +114,5 @@ export const getUnreadCounts = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+console.log("Logged in user:", req.user._id);
+console.log("Messages found:", messages.length);
