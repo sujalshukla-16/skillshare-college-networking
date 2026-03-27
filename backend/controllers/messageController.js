@@ -23,9 +23,7 @@ export const sendMessage = async (req, res) => {
 // ================= GET CHAT USERS =================
 export const getChatUsers = async (req, res) => {
   try {
-    const userId = req.user._id.toString();
-
-    console.log("👉 Logged in user:", userId);
+    const userId = new mongoose.Types.ObjectId(req.user._id);
 
     const messages = await Message.find({
       $or: [
@@ -37,18 +35,15 @@ export const getChatUsers = async (req, res) => {
       .populate("receiver", "name role")
       .sort({ createdAt: -1 });
 
-    console.log("👉 Messages found:", messages.length);
-
     const usersMap = new Map();
 
     messages.forEach((msg) => {
-      let otherUser;
+      const senderId = msg.sender._id.toString();
+      const receiverId = msg.receiver._id.toString();
+      const currentUserId = userId.toString();
 
-      if (msg.sender._id.toString() === userId) {
-        otherUser = msg.receiver;
-      } else {
-        otherUser = msg.sender;
-      }
+      let otherUser =
+        senderId === currentUserId ? msg.receiver : msg.sender;
 
       if (!usersMap.has(otherUser._id.toString())) {
         usersMap.set(otherUser._id.toString(), otherUser);
