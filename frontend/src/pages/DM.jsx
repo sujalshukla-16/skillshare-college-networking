@@ -26,6 +26,7 @@ function DM() {
   // ================= LOAD CHAT USERS =================
   const loadChatUsers = async () => {
     const res = await API.get("/messages/chat-users");
+    console.log("Chat Users:", chatUsers);
     setChatUsers(res.data);
   };
 
@@ -68,6 +69,7 @@ function DM() {
       {/* ================= CHAT HISTORY ================= */}
       <h3>Chats</h3>
 
+      console.log("👉 chatUsers state:", chatUsers);
       {chatUsers.map((user) => {
         const unreadCount = unread.find(u => u._id === user._id)?.count;
 
@@ -138,5 +140,5 @@ function DM() {
     </div>
   );
 }
-console.log("Chat Users:", chatUsers);
+
 export default DM;
