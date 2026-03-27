@@ -6,10 +6,11 @@ export const sendMessage = async (req, res) => {
     const { receiverId, text } = req.body;
 
     const message = await Message.create({
-      sender: req.user._id,
-      receiver: receiverId,
-      text,
-    });
+  sender: req.user._id,
+  receiver: receiverId,
+  text,
+  read: false,
+});;
 
     res.status(201).json(message);
   } catch (error) {
@@ -53,6 +54,49 @@ export const getMessages = async (req, res) => {
         { sender: userId, receiver: req.user._id },
       ],
     }).sort({ createdAt: 1 });
+
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// ================= MARK AS READ =================
+export const markAsRead = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    await Message.updateMany(
+      {
+        sender: userId,
+        receiver: req.user._id,
+        read: false,
+      },
+      { $set: { read: true } }
+    );
+
+    res.json({ message: "Messages marked as read" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================= UNREAD COUNT =================
+export const getUnreadCounts = async (req, res) => {
+  try {
+    const messages = await Message.aggregate([
+      {
+        $match: {
+          receiver: req.user._id,
+          read: false,
+        },
+      },
+      {
+        $group: {
+          _id: "$sender",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
 
     res.json(messages);
   } catch (error) {
