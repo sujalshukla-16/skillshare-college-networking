@@ -69,7 +69,7 @@ function DM() {
       {/* ================= CHAT HISTORY ================= */}
       <h3>Chats</h3>
 
-      console.log("👉 chatUsers state:", chatUsers);
+      {console.log("👉 chatUsers state:", chatUsers)}
       {chatUsers.map((user) => {
         const unreadCount = unread.find(u => u._id === user._id)?.count;
 
