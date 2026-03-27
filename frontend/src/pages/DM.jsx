@@ -58,72 +58,96 @@ function DM() {
 
       <h2>Direct Messages</h2>
 
-      <h3>Chats</h3>
+      <div className="dm-container">
 
-      {chatUsers.map((user) => {
-        const unreadCount = unread.find(u => u._id === user._id)?.count;
+        {/* ================= SIDEBAR ================= */}
+        <div className="dm-sidebar">
 
-        return (
-          <div
-            key={user._id}
-            onClick={() => loadMessages(user._id)}
-            style={{
-              padding: "10px",
-              cursor: "pointer",
-              borderBottom: "1px solid #333"
-            }}
-          >
-            {user.name} ({user.role})
+          <h3>Chats</h3>
 
-            {unreadCount > 0 && (
-              <span style={{
-                marginLeft: "10px",
-                background: "red",
-                color: "white",
-                borderRadius: "50%",
-                padding: "4px 8px",
-                fontSize: "12px"
-              }}>
-                {unreadCount}
-              </span>
-            )}
+          {chatUsers.map((user) => {
+            const unreadCount = unread.find(u => u._id === user._id)?.count;
+
+            return (
+              <div
+                key={user._id}
+                onClick={() => loadMessages(user._id)}
+                className={`dm-user ${
+                  selectedUser === user._id ? "active" : ""
+                }`}
+              >
+                <div>
+                  <b>{user.name}</b>
+                  <div className="role">{user.role}</div>
+                </div>
+
+                {unreadCount > 0 && (
+                  <span className="unread-badge">{unreadCount}</span>
+                )}
+              </div>
+            );
+          })}
+
+          {/* ================= SEARCH ================= */}
+          <div className="dm-search">
+            <input
+              placeholder="Search users..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <button onClick={searchUsers}>Search</button>
           </div>
-        );
-      })}
 
-      <h3>Search Users</h3>
-
-      <input
-        placeholder="Search users..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={searchUsers}>Search</button>
-
-      {users.map((user) => (
-        <div key={user._id} onClick={() => loadMessages(user._id)}>
-          {user.name} ({user.role})
-        </div>
-      ))}
-
-      {selectedUser && (
-        <div>
-          <h3>Chat</h3>
-
-          {messages.map((msg) => (
-            <p key={msg._id}>
-              <b>{msg.sender === selectedUser ? "Them" : "You"}:</b> {msg.text}
-            </p>
+          {users.map((user) => (
+            <div
+              key={user._id}
+              onClick={() => loadMessages(user._id)}
+              className="dm-user"
+            >
+              {user.name} ({user.role})
+            </div>
           ))}
 
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Type a message..."
-          />
-          <button onClick={sendMessage}>Send</button>
         </div>
-      )}
+
+        {/* ================= CHAT AREA ================= */}
+        <div className="dm-chat">
+
+          {!selectedUser ? (
+            <div className="no-chat">
+              Select a chat to start messaging
+            </div>
+          ) : (
+            <>
+              <div className="chat-header">Chat</div>
+
+              <div className="chat-messages">
+                {messages.map((msg) => (
+                  <div
+                    key={msg._id}
+                    className={`chat-bubble ${
+                      msg.sender === selectedUser ? "left" : "right"
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
+                ))}
+              </div>
+
+              <div className="chat-input">
+                <input
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Type a message..."
+                />
+                <button onClick={sendMessage}>Send</button>
+              </div>
+            </>
+          )}
+
+        </div>
+
+      </div>
 
     </div>
   );
