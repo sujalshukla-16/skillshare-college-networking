@@ -20,7 +20,6 @@ function Courses() {
     getUserRole();
   }, []);
 
-  // Debug role (SAFE)
   useEffect(() => {
     console.log("User Role:", userRole);
   }, [userRole]);
@@ -37,7 +36,6 @@ function Courses() {
   const getUserRole = async () => {
     try {
       const res = await API.get("/users/profile");
-      console.log("PROFILE RESPONSE:", res.data);
       setUserRole(res.data.role);
     } catch (err) {
       console.error("PROFILE ERROR:", err);
@@ -74,69 +72,82 @@ function Courses() {
   return (
     <div className="feed">
 
-      {/* DEBUG TEXT (temporary) */}
       <h4>Current Role: {userRole}</h4>
 
       {/* ADD COURSE FORM */}
       {(userRole?.toLowerCase() === "faculty" ||
         userRole?.toLowerCase() === "alumni") && (
 
-        <div className="create-post-card">
+        <div className="form-card">
           <h3>Add Course</h3>
 
-          <input
-            type="text"
-            name="courseName"
-            placeholder="Course Name"
-            value={formData.courseName}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              name="courseName"
+              placeholder="Course Name"
+              value={formData.courseName}
+              onChange={handleChange}
+            />
+          </div>
 
-          <input
-            type="text"
-            name="domain"
-            placeholder="Course Domain"
-            value={formData.domain}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              name="domain"
+              placeholder="Course Domain"
+              value={formData.domain}
+              onChange={handleChange}
+            />
+          </div>
 
-          <input
-            type="text"
-            name="duration"
-            placeholder="Course Duration"
-            value={formData.duration}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              name="duration"
+              placeholder="Course Duration"
+              value={formData.duration}
+              onChange={handleChange}
+            />
+          </div>
 
-          <input
-            type="text"
-            name="eligibleStudents"
-            placeholder="Eligible Students (BE / BSc etc)"
-            value={formData.eligibleStudents}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              name="eligibleStudents"
+              placeholder="Eligible Students (BE / BSc etc)"
+              value={formData.eligibleStudents}
+              onChange={handleChange}
+            />
+          </div>
 
-          <input
-            type="date"
-            name="lastDate"
-            value={formData.lastDate}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="date"
+              name="lastDate"
+              value={formData.lastDate}
+              onChange={handleChange}
+            />
+          </div>
 
-          <textarea
-            name="description"
-            placeholder="Additional Information"
-            value={formData.description}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <textarea
+              name="description"
+              placeholder="Additional Information"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </div>
 
-          <input
-            type="text"
-            name="applyLink"
-            placeholder="Apply Link"
-            value={formData.applyLink}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <input
+              type="text"
+              name="applyLink"
+              placeholder="Apply Link"
+              value={formData.applyLink}
+              onChange={handleChange}
+            />
+          </div>
 
           <button onClick={createCourse}>Post Course</button>
         </div>
