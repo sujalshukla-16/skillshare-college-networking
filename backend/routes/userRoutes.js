@@ -78,4 +78,20 @@ router.put("/me", protect, async (req, res) => {
   }
 });
 
+// Search users
+router.get("/search", protect, async (req, res) => {
+  try {
+    const keyword = req.query.q;
+
+    const users = await User.find({
+      name: { $regex: keyword, $options: "i" },
+      _id: { $ne: req.user._id },
+    }).select("name role");
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
