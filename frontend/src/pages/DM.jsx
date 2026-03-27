@@ -7,6 +7,8 @@ function DM() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [chatUsers, setChatUsers] = useState([]);
+const [unread, setUnread] = useState([]);
 
   const searchUsers = async () => {
     const res = await API.get(`/users/search?q=${query}`);
@@ -14,16 +16,31 @@ function DM() {
   };
 
   const loadMessages = async (userId) => {
-    const res = await API.get(`/messages/${userId}`);
-    setMessages(res.data);
-    setSelectedUser(userId);
-  };
+  const res = await API.get(`/messages/${userId}`);
+  setMessages(res.data);
+  setSelectedUser(userId);
+
+  // mark messages as read
+  await API.put(`/messages/read/${userId}`);
+
+  loadUnread();
+};
 
   const sendMessage = async () => {
     await API.post("/messages", {
       receiverId: selectedUser,
       text,
     });
+
+    const loadChatUsers = async () => {
+  const res = await API.get("/messages/chat-users");
+  setChatUsers(res.data);
+};
+
+const loadUnread = async () => {
+  const res = await API.get("/messages/unread");
+  setUnread(res.data);
+};
 
     setText("");
     loadMessages(selectedUser);
