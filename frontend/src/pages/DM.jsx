@@ -11,43 +11,35 @@ function DM() {
   const [chatUsers, setChatUsers] = useState([]);
   const [unread, setUnread] = useState([]);
 
-  // ================= LOAD INITIAL DATA =================
   useEffect(() => {
     loadChatUsers();
     loadUnread();
   }, []);
 
-  // ================= SEARCH USERS =================
   const searchUsers = async () => {
     const res = await API.get(`/users/search?q=${query}`);
     setUsers(res.data);
   };
 
-  // ================= LOAD CHAT USERS =================
   const loadChatUsers = async () => {
     const res = await API.get("/messages/chat-users");
-    console.log("Chat Users:", chatUsers);
     setChatUsers(res.data);
   };
 
-  // ================= LOAD UNREAD =================
   const loadUnread = async () => {
     const res = await API.get("/messages/unread");
     setUnread(res.data);
   };
 
-  // ================= LOAD MESSAGES =================
   const loadMessages = async (userId) => {
     const res = await API.get(`/messages/${userId}`);
     setMessages(res.data);
     setSelectedUser(userId);
 
-    // mark as read
     await API.put(`/messages/read/${userId}`);
     loadUnread();
   };
 
-  // ================= SEND MESSAGE =================
   const sendMessage = async () => {
     if (!text.trim()) return;
 
@@ -58,7 +50,7 @@ function DM() {
 
     setText("");
     loadMessages(selectedUser);
-    loadChatUsers(); // update chat list
+    loadChatUsers();
   };
 
   return (
@@ -66,10 +58,8 @@ function DM() {
 
       <h2>Direct Messages</h2>
 
-      {/* ================= CHAT HISTORY ================= */}
       <h3>Chats</h3>
 
-      {console.log("👉 chatUsers state:", chatUsers)}
       {chatUsers.map((user) => {
         const unreadCount = unread.find(u => u._id === user._id)?.count;
 
@@ -101,7 +91,6 @@ function DM() {
         );
       })}
 
-      {/* ================= SEARCH ================= */}
       <h3>Search Users</h3>
 
       <input
@@ -117,7 +106,6 @@ function DM() {
         </div>
       ))}
 
-      {/* ================= CHAT ================= */}
       {selectedUser && (
         <div>
           <h3>Chat</h3>
