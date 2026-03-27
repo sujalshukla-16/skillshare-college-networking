@@ -20,25 +20,36 @@ export const sendMessage = async (req, res) => {
 // Get all chat users (chat history)
 export const getChatUsers = async (req, res) => {
   try {
+    const userId = req.user._id;
+
     const messages = await Message.find({
       $or: [
-        { sender: req.user._id },
-        { receiver: req.user._id },
+        { sender: userId },
+        { receiver: userId },
       ],
-    }).populate("sender receiver", "name role");
+    })
+    .populate("sender", "name role")
+    .populate("receiver", "name role")
+    .sort({ createdAt: -1 });
 
-    const usersMap = {};
+    const usersMap = new Map();
 
     messages.forEach((msg) => {
-      const otherUser =
-        msg.sender._id.toString() === req.user._id.toString()
-          ? msg.receiver
-          : msg.sender;
+      let otherUser;
 
-      usersMap[otherUser._id] = otherUser;
+      if (msg.sender._id.toString() === userId.toString()) {
+        otherUser = msg.receiver;
+      } else {
+        otherUser = msg.sender;
+      }
+
+      // store latest chat only
+      if (!usersMap.has(otherUser._id.toString())) {
+        usersMap.set(otherUser._id.toString(), otherUser);
+      }
     });
 
-    res.json(Object.values(usersMap));
+    res.json(Array.from(usersMap.values()));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
