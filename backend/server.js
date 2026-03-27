@@ -10,6 +10,7 @@ import postRoutes from "./routes/postRoutes.js";
 /* NEW ROUTES */
 import courseRoutes from "./routes/courseRoutes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/messages", messageRoutes);
 
 /* NEW ROUTES */
 app.use("/api/courses", courseRoutes);
