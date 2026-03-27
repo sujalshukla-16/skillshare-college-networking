@@ -138,5 +138,5 @@ function DM() {
     </div>
   );
 }
-
+console.log("Chat Users:", chatUsers);
 export default DM;
