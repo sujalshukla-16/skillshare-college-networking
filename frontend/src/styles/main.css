@@ -589,3 +589,124 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
+
+/* ================= DM UI ================= */
+
+.dm-container {
+  display: flex;
+  height: 80vh;
+  background: #0f172a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.dm-sidebar {
+  width: 30%;
+  background: #1e293b;
+  padding: 15px;
+  border-right: 1px solid #334155;
+  overflow-y: auto;
+}
+
+.dm-user {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: 0.2s;
+}
+
+.dm-user:hover {
+  background: #334155;
+}
+
+.dm-user.active {
+  background: #3b82f6;
+}
+
+.role {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.unread-badge {
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+/* Chat area */
+.dm-chat {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 15px;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/* Chat bubbles */
+.chat-bubble {
+  max-width: 60%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.chat-bubble.left {
+  background: #334155;
+  align-self: flex-start;
+}
+
+.chat-bubble.right {
+  background: #3b82f6;
+  align-self: flex-end;
+}
+
+/* Input */
+.chat-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #334155;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 10px 16px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+/* No chat */
+.no-chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #94a3b8;
+}
