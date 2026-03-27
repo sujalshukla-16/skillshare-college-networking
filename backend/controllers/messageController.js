@@ -16,7 +16,32 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Get all chat users (chat history)
+export const getChatUsers = async (req, res) => {
+  try {
+    const messages = await Message.find({
+      $or: [
+        { sender: req.user._id },
+        { receiver: req.user._id },
+      ],
+    }).populate("sender receiver", "name role");
 
+    const usersMap = {};
+
+    messages.forEach((msg) => {
+      const otherUser =
+        msg.sender._id.toString() === req.user._id.toString()
+          ? msg.receiver
+          : msg.sender;
+
+      usersMap[otherUser._id] = otherUser;
+    });
+
+    res.json(Object.values(usersMap));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 // Get messages between two users
 export const getMessages = async (req, res) => {
   try {
