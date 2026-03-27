@@ -710,3 +710,106 @@ body {
   height: 100%;
   color: #94a3b8;
 }
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  /* General */
+  .feed {
+    padding: 10px;
+  }
+
+  h2, h3 {
+    font-size: 18px;
+  }
+
+  /* Navbar */
+  nav {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+
+  /* Forms */
+  .form-card {
+    padding: 16px;
+  }
+
+  .form-card input,
+  .form-card textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Buttons */
+  button {
+    width: 100%;
+  }
+
+  /* Cards (courses, posts, etc.) */
+  .post-card {
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+
+  /* ================= DM RESPONSIVE ================= */
+
+  .dm-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .dm-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #334155;
+  }
+
+  .dm-chat {
+    width: 100%;
+  }
+
+  .chat-messages {
+    max-height: 300px;
+  }
+
+  .chat-bubble {
+    max-width: 80%;
+    font-size: 14px;
+  }
+
+  .chat-input {
+    flex-direction: column;
+  }
+
+  .chat-input input {
+    margin-bottom: 8px;
+  }
+
+  .chat-input button {
+    width: 100%;
+  }
+
+  /* Search */
+  .dm-search {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  input, textarea {
+    width: 100%;
+  }
+}
