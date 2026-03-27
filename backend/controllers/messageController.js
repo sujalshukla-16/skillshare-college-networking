@@ -22,6 +22,8 @@ export const getChatUsers = async (req, res) => {
   try {
     const userId = req.user._id;
 
+    console.log("👉 Logged in user:", userId); 
+    
     const messages = await Message.find({
       $or: [
         { sender: userId },
@@ -32,6 +34,8 @@ export const getChatUsers = async (req, res) => {
     .populate("receiver", "name role")
     .sort({ createdAt: -1 });
 
+    console.log("👉 Messages found:", messages.length);
+    
     const usersMap = new Map();
 
     messages.forEach((msg) => {
