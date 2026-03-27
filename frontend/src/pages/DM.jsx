@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../services/api";
 
 function DM() {
@@ -7,43 +7,57 @@ function DM() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
-  const [chatUsers, setChatUsers] = useState([]);
-const [unread, setUnread] = useState([]);
 
+  const [chatUsers, setChatUsers] = useState([]);
+  const [unread, setUnread] = useState([]);
+
+  // ================= LOAD INITIAL DATA =================
+  useEffect(() => {
+    loadChatUsers();
+    loadUnread();
+  }, []);
+
+  // ================= SEARCH USERS =================
   const searchUsers = async () => {
     const res = await API.get(`/users/search?q=${query}`);
     setUsers(res.data);
   };
 
+  // ================= LOAD CHAT USERS =================
+  const loadChatUsers = async () => {
+    const res = await API.get("/messages/chat-users");
+    setChatUsers(res.data);
+  };
+
+  // ================= LOAD UNREAD =================
+  const loadUnread = async () => {
+    const res = await API.get("/messages/unread");
+    setUnread(res.data);
+  };
+
+  // ================= LOAD MESSAGES =================
   const loadMessages = async (userId) => {
-  const res = await API.get(`/messages/${userId}`);
-  setMessages(res.data);
-  setSelectedUser(userId);
+    const res = await API.get(`/messages/${userId}`);
+    setMessages(res.data);
+    setSelectedUser(userId);
 
-  // mark messages as read
-  await API.put(`/messages/read/${userId}`);
+    // mark as read
+    await API.put(`/messages/read/${userId}`);
+    loadUnread();
+  };
 
-  loadUnread();
-};
-
+  // ================= SEND MESSAGE =================
   const sendMessage = async () => {
+    if (!text.trim()) return;
+
     await API.post("/messages", {
       receiverId: selectedUser,
       text,
     });
 
-    const loadChatUsers = async () => {
-  const res = await API.get("/messages/chat-users");
-  setChatUsers(res.data);
-};
-
-const loadUnread = async () => {
-  const res = await API.get("/messages/unread");
-  setUnread(res.data);
-};
-
     setText("");
     loadMessages(selectedUser);
+    loadChatUsers(); // update chat list
   };
 
   return (
@@ -51,7 +65,43 @@ const loadUnread = async () => {
 
       <h2>Direct Messages</h2>
 
-      {/* Search */}
+      {/* ================= CHAT HISTORY ================= */}
+      <h3>Chats</h3>
+
+      {chatUsers.map((user) => {
+        const unreadCount = unread.find(u => u._id === user._id)?.count;
+
+        return (
+          <div
+            key={user._id}
+            onClick={() => loadMessages(user._id)}
+            style={{
+              padding: "10px",
+              cursor: "pointer",
+              borderBottom: "1px solid #333"
+            }}
+          >
+            {user.name} ({user.role})
+
+            {unreadCount > 0 && (
+              <span style={{
+                marginLeft: "10px",
+                background: "red",
+                color: "white",
+                borderRadius: "50%",
+                padding: "4px 8px",
+                fontSize: "12px"
+              }}>
+                {unreadCount}
+              </span>
+            )}
+          </div>
+        );
+      })}
+
+      {/* ================= SEARCH ================= */}
+      <h3>Search Users</h3>
+
       <input
         placeholder="Search users..."
         value={query}
@@ -59,14 +109,13 @@ const loadUnread = async () => {
       />
       <button onClick={searchUsers}>Search</button>
 
-      {/* User List */}
       {users.map((user) => (
         <div key={user._id} onClick={() => loadMessages(user._id)}>
           {user.name} ({user.role})
         </div>
       ))}
 
-      {/* Chat */}
+      {/* ================= CHAT ================= */}
       {selectedUser && (
         <div>
           <h3>Chat</h3>
@@ -80,10 +129,12 @@ const loadUnread = async () => {
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Type a message..."
           />
           <button onClick={sendMessage}>Send</button>
         </div>
       )}
+
     </div>
   );
 }
