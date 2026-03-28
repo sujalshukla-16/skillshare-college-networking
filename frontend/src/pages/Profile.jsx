@@ -34,7 +34,7 @@ function Profile() {
         <b>Department:</b> {user.department || "Computer Engineering"}
       </p>
       <p>
-        <b>Skills:</b> {user.skills || "C,C++,Java,React,Node.JS,Git"}
+        <b>Skills:</b> {user.skills || "C,C++,Java,React"}
       </p>
       <p>
         <b>Bio:</b> {user.bio || "Proud to be Engineer"}
