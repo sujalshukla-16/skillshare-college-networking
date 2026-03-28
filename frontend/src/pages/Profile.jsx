@@ -28,16 +28,16 @@ function Profile() {
         <b>Email:</b> {user.email}
       </p>
       <p>
-        <b>Role:</b> {user.role}
+        <b>Role:</b> {user.role.toUpperCase()}
       </p>
       <p>
-        <b>Department:</b> {user.department || "Not specified"}
+        <b>Department:</b> {user.department || "Computer Engineering"}
       </p>
       <p>
-        <b>Skills:</b> {user.skills || "Not specified"}
+        <b>Skills:</b> {user.skills || "C,C++,Java,React,Node.JS,Git"}
       </p>
       <p>
-        <b>Bio:</b> {user.bio || "No bio yet"}
+        <b>Bio:</b> {user.bio || "Proud to be Engineer"}
       </p>
     </div>
   );
