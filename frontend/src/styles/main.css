@@ -741,7 +741,7 @@ body {
 
   .form-card input,
   .form-card textarea {
-    font-size: 14px;
+    font-size: 18px;
     padding: 10px;
   }
 
@@ -779,7 +779,7 @@ body {
 
   .chat-bubble {
     max-width: 80%;
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .chat-input {
